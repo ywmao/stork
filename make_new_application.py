@@ -9,7 +9,7 @@ import os, sys, string, re, subprocess
 from optparse import OptionParser
 from shutil import copytree, ignore_patterns
 
-# DO NOT MODIFY 
+# DO NOT MODIFY
 # This value should be set to true if this stork is within the svn herd repository
 global_in_herd = False
 global_ignores = ['.svn', '.git']
@@ -79,7 +79,7 @@ def replacementFunction(match):
     name = name.title()
     name = name.replace(" ", "")
     return name
-  
+
   print match.group(0) + "\nBad Case Detected!"
   sys.exit(1)
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
       print 'Usage: ./make_new_application.py'
       sys.exit()
     global_app_name = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
-  
+
   # Make the new application
   if global_in_herd:
     copytree('.', '../' + global_app_name, ignore=ignore_patterns('.svn', '.git', '*.module', 'make_new*', 'LICENSE'))
@@ -120,5 +120,9 @@ if __name__ == '__main__':
     # Add the newly created untracked files and delete the removed ones
     subprocess.check_output("git rm -f *.py Makefile.* run_tests.*", shell=True)
     subprocess.call("git add --all *", shell=True)
+
+    # Initialize MOOSE submodule
+    print 'Downloading the latest copy of MOOSE...'
+    subprocess.call("git submodule update --init moose", shell=True, stdout=subprocess.PIPE)
 
     print 'Your application should be ready!\nCommit this directory to your local repository and push.'
