@@ -1,0 +1,20 @@
+site_name: MOOSE
+
+docs_dir: .
+
+site_dir: ../site
+
+extra_css:
+    - css/moose.css
+
+extra_javascript:
+    - http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+    - js/mathjaxconfig.js
+
+markdown_extensions:
+    - smarty
+    - admonition
+    - markdown_include.include
+    - mdx_math
+    - MooseDocs.extensions.MooseMarkdown:
+          make: ..
