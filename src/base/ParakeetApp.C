@@ -21,10 +21,10 @@
 // strain part is the same.
 #include "ComputeDamageParakeet.h"
 #include "ComputeArrudaBoyceDamageMPParakeet.h"
-#include "ArrudaBoyceDamagePart1Parakeet.h"
-#include "ArrudaBoyceDamagePart2Parakeet.h"
+#include "ArrudaBoyceDamageParakeet.h"
+#include "StressDivergenceDamageParakeet.h"
 #include "DamageParakeet.h"
-//#include "DamageParakeetAction.h"
+#include "DeformationDamageParakeetAction.h"
 
 template<>
 InputParameters validParams<ParakeetApp>()
@@ -77,11 +77,11 @@ ParakeetApp::registerObjects(Factory & factory)
       registerBoundaryCondition(DisplacementParakeet);
 
       // for damage 
+      registerKernel(StressDivergenceDamageParakeet);
       registerKernel(DamageParakeet);
       registerMaterial(ComputeDamageParakeet);
       registerMaterial(ComputeArrudaBoyceDamageMPParakeet);
-      registerMaterial(ArrudaBoyceDamagePart1Parakeet);
-      registerMaterial(ArrudaBoyceDamagePart2Parakeet);
+      registerMaterial(ArrudaBoyceDamageParakeet);
 
 }
 
@@ -93,6 +93,8 @@ ParakeetApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
 
      syntax.registerActionSyntax("DeformationParakeetAction", "Kernels/DeformationParakeet");
      registerAction(DeformationParakeetAction, "add_kernel");
+     syntax.registerActionSyntax("DeformationDamageParakeetAction", "Kernels/DeformationDamageParakeet");
+     registerAction(DeformationDamageParakeetAction, "add_kernel");
      //syntax.registerActionSyntax("DamageParakeetAction", "Kernels/DamageParakeet");
      //registerAction(DamageParakeetAction, "add_kernel");
 
